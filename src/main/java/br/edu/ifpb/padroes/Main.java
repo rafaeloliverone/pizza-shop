@@ -4,6 +4,7 @@ import br.edu.ifpb.padroes.api.damenos.DamenosPizza;
 import br.edu.ifpb.padroes.api.pizzahot.PizzaHotPizza;
 import br.edu.ifpb.padroes.domain.Pizza;
 import br.edu.ifpb.padroes.domain.PizzaShopPizza;
+import br.edu.ifpb.padroes.domain.decorators.*;
 import br.edu.ifpb.padroes.service.PizzaShopService;
 
 public class Main {
@@ -24,9 +25,16 @@ public class Main {
 
         Pizza pizza = new PizzaShopPizza("pepperoni", 55.0f);
 
-        // TODO - implementar padrão decorator para só precisar passar o objeto pizza
-        pizzaShopService.orderPizza(pizza, true, true, false, true);
+        PizzaDecorator pizzaDecorator = new DiscountDecorator(
+            new ChesseDecorator(
+                new StuffedCrustDecorator(
+                    new PizzaDecorator(pizza)
+                )
+            )
+        );
 
+        // TODO - implementar padrão decorator para só precisar passar o objeto pizza
+        pizzaShopService.orderPizza(pizzaDecorator);
     }
 
 }
